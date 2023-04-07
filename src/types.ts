@@ -2,7 +2,7 @@ export type PlayerType = "A" | "B";
 
 export type DraftData = {
   id: string;
-  text: String;
+  text: string;
 };
 
 export type tabStateType =

@@ -9,6 +9,7 @@ import { useRecoilState } from "recoil";
 import { Top } from "./Top";
 import { Draft } from "./Draft";
 import { Order } from "./Order";
+import { Result } from "./Result";
 
 export const Tab: React.FC = () => {
   const [tabPage] = useRecoilState(tabPageState);
@@ -24,6 +25,7 @@ export const Tab: React.FC = () => {
     case "PLAYER_B_ORDER":
       return <Order playerType="B" orderState={playerBDraftOrderState} />;
     case "RESULT":
+      return <Result />;
     default:
       throw new Error("タブの切り替えが不正です");
   }
