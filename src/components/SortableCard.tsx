@@ -2,6 +2,7 @@ import { FC } from "react";
 import { CSS } from "@dnd-kit/utilities";
 import { DraftData } from "../types";
 import { useSortable } from "@dnd-kit/sortable";
+import { Card, CardBody, ListItem, Text } from "@chakra-ui/react";
 
 export const SortableCard: FC<{ data: DraftData }> = ({ data }) => {
   const { attributes, listeners, setNodeRef, transform } = useSortable({
@@ -13,10 +14,12 @@ export const SortableCard: FC<{ data: DraftData }> = ({ data }) => {
   };
 
   return (
-    <li ref={setNodeRef} {...attributes} {...listeners} style={style}>
-      <div id={data.id}>
-        <p>{data.text}</p>
-      </div>
-    </li>
+    <ListItem ref={setNodeRef} {...attributes} {...listeners} style={style}>
+      <Card id={data.id}>
+        <CardBody>
+          <Text>{data.text}</Text>
+        </CardBody>
+      </Card>
+    </ListItem>
   );
 };

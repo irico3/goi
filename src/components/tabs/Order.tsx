@@ -1,6 +1,3 @@
-import { RecoilState, useRecoilState } from "recoil";
-import { DraftData, PlayerType } from "../../types";
-import { draftListState, tabPageState } from "../../atom/atom";
 import {
   DndContext,
   DragEndEvent,
@@ -8,18 +5,22 @@ import {
   MouseSensor,
   TouchSensor,
   closestCenter,
-  useDroppable,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import { useEffect, useState } from "react";
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import {
   SortableContext,
   arrayMove,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
+import { useEffect } from "react";
+import { RecoilState, useRecoilState } from "recoil";
+import { draftListState, tabPageState } from "../../atom/atom";
+import { DraftData, PlayerType } from "../../types";
 import { SortableCard } from "../SortableCard";
+import { Heading, List, Button, Text, Center } from "@chakra-ui/react";
+import { color } from "framer-motion";
 
 export const Order: React.FC<{
   playerType: PlayerType;
@@ -64,15 +65,17 @@ export const Order: React.FC<{
 
   return (
     <div>
-      <h1>{playerType}さんの優先度</h1>
+      <Heading>{playerType}さんの優先度</Heading>
       <DndContext
         sensors={sensors}
         modifiers={[restrictToVerticalAxis]}
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
       >
-        <span>高</span>
-        <ul>
+        <Text textAlign={"center"} mt={10} color={"red"}>
+          高
+        </Text>
+        <List spacing={6}>
           <SortableContext
             items={draftOrder}
             strategy={verticalListSortingStrategy}
@@ -81,10 +84,16 @@ export const Order: React.FC<{
               return <SortableCard key={draft.id} data={draft} />;
             })}
           </SortableContext>
-        </ul>
-        <span>低</span>
+        </List>
+        <Text textAlign={"center"} color={"royalblue"}>
+          低
+        </Text>
       </DndContext>
-      <button onClick={handleClickFinish}>完了</button>
+      <Center>
+        <Button onClick={handleClickFinish} mt={5}>
+          完了
+        </Button>
+      </Center>
     </div>
   );
 };
