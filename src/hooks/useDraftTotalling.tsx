@@ -17,15 +17,11 @@ const getDraftOrderObj = (draftOrder: DraftData[]) => {
   return draftOrderObj;
 };
 
-export const useDraftTotalling = () => {
-  const [playerADraftOrder] = useRecoilState(playerADraftOrderState);
-  const [playerBDraftOrder] = useRecoilState(playerBDraftOrderState);
-  const [draftList] = useRecoilState(draftListState);
-  // indexの合計値が低いほど優先度が高い
-
-  const playerADraftOrderObj = getDraftOrderObj(playerADraftOrder);
-  const playerBDraftOrderObj = getDraftOrderObj(playerBDraftOrder);
-
+export const getDraftTotalling = (
+  playerADraftOrderObj: Record<string, number>,
+  playerBDraftOrderObj: Record<string, number>,
+  draftList: DraftData[]
+) => {
   // 集計
   // {index: text}
   const draftTotalling = draftList.map((draft) => {
@@ -39,6 +35,23 @@ export const useDraftTotalling = () => {
   draftTotalling.sort((a, b) => a.score - b.score);
 
   draftTotalling.splice(3);
+
+  return draftTotalling;
+};
+
+export const useDraftTotalling = () => {
+  const [playerADraftOrder] = useRecoilState(playerADraftOrderState);
+  const [playerBDraftOrder] = useRecoilState(playerBDraftOrderState);
+  const [draftList] = useRecoilState(draftListState);
+  // indexの合計値が低いほど優先度が高い
+
+  const playerADraftOrderObj = getDraftOrderObj(playerADraftOrder);
+  const playerBDraftOrderObj = getDraftOrderObj(playerBDraftOrder);
+  const draftTotalling = getDraftTotalling(
+    playerADraftOrderObj,
+    playerBDraftOrderObj,
+    draftList
+  );
 
   return [draftTotalling];
 };

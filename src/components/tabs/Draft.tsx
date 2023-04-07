@@ -38,7 +38,13 @@ export const Draft: React.FC<{ playerType: PlayerType }> = ({ playerType }) => {
           setDraftText(e.target.value);
         }}
       />
-      <button onClick={onClickDraftUp}>OK</button>
+      <button
+        onClick={onClickDraftUp}
+        disabled={draftList.length >= 10 || draftText === ""}
+      >
+        OK
+      </button>
+      <span>{draftList.length} / 10</span>
       <ul>
         {draftList.map((draft, index) => {
           return (
